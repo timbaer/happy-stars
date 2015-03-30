@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>de.axelspringer.ideas.pcp</groupId>
+        <artifactId>pcp-parent</artifactId>
+        <version>2.15</version>
+    </parent>
+    <groupId>de.axelspringer.ideas</groupId>
+    <artifactId>happyIndex</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>happiness-index-application</module>
+        <module>happiness-index-frontend</module>
+    </modules>
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>de.axelspringer.ideas.pcp</groupId>
+            <artifactId>happiness-index-frontend</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>pcp-repository-mirror</id>
+            <url>http://buildbox.axelspringer.de/nexus/content/groups/pcp-central-repo</url>
+        </repository>
+    </repositories>
+</project>
