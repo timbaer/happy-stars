@@ -1,0 +1,1 @@
+web:    java -Dserver.port=$PORT -jar happiness-index-application/target/yana-dash.jar
