@@ -7,9 +7,11 @@
         <groupId>de.axelspringer.ideas</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>happiness-index-application</artifactId>
+
     <dependencies>
 
         <!-- Import dependency management from Spring Boot -->
