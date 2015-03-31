@@ -31,7 +31,28 @@
             <groupId>de.axelspringer.ideas</groupId>
             <artifactId>happiness-index-frontend</artifactId>
         </dependency>
+
     </dependencies>
+
+    <build>
+        <plugins>
+            <!-- creates fat jar with dependencies and embedded servlet container -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>de.HappinessIndex.Application</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>
