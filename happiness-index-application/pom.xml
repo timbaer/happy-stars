@@ -26,7 +26,7 @@
             <version>1.2.0.RELEASE</version>
         </dependency>
         <dependency>
-            <groupId>de.axelspringer.ideas.pcp</groupId>
+            <groupId>de.axelspringer.ideas</groupId>
             <artifactId>happiness-index-frontend</artifactId>
         </dependency>
     </dependencies>

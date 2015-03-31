@@ -19,7 +19,7 @@
 <dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>de.axelspringer.ideas.pcp</groupId>
+            <groupId>de.axelspringer.ideas</groupId>
             <artifactId>happiness-index-frontend</artifactId>
             <version>${project.version}</version>
         </dependency>
