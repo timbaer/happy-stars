@@ -11,6 +11,10 @@ import org.springframework.context.annotation.Configuration;
 public class Application {
 
     public static void main(String[] args) {
+        // FIXME Remove System.out
+        System.out.println("###########################");
+        System.out.println("Hello World!");
+        System.out.println("###########################");
         SpringApplication.run(Application.class, args);
     }
 
