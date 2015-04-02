@@ -1,4 +1,9 @@
 package de.waschnick.happy.stars.api;
 
-public class StarColor {
+public enum StarColor {
+    RED,
+    BLUE,
+    GREEN,
+    YELLOW,
+    BLACK
 }
