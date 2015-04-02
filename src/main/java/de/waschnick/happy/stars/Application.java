@@ -1,4 +1,4 @@
-package de.HappinessIndex;
+package de.waschnick.happy.stars;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

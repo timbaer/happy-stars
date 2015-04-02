@@ -1,14 +1,14 @@
-package de.HappinessIndex;
+package de.waschnick.happy.stars;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class IndexController {
+public class StarController {
 
-    @RequestMapping("/hello")
+    @RequestMapping("/stars")
     public String index() {
-        return "public/index.html";
+        return
     }
 
 }
