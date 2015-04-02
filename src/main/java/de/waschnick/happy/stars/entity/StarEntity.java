@@ -4,6 +4,8 @@ import de.waschnick.happy.stars.api.StarColor;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +27,7 @@ public class StarEntity {
     private String name;
 
     @NotNull
-    @Size(min = 1, max = 255)
+    @Enumerated(EnumType.STRING)
     private StarColor color;
 
     public StarEntity() {
