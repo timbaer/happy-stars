@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2015-04-02-inital-changeset
+      author: swaschnick
+      changes:
+        - createTable:
+            tableName: star
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: color
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
