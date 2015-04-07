@@ -71,10 +71,6 @@ public class Application {
         dataSource.setUrl(DB_URL);
         dataSource.setConnectionProperties(new Properties());
 
-        if (DB_DRIVER.contains("postgresql")) {
-            dataSource.getConnectionProperties().setProperty("ssl", "true");
-            dataSource.getConnectionProperties().setProperty("sslfactory", "org.postgresql.ssl.NonValidatingFactory");
-        }
         dataSource.setUsername(DB_USERNAME);
         dataSource.setPassword(DB_PASSWORD);
         return dataSource;
