@@ -2,6 +2,8 @@ package de.waschnick.happy.stars;
 
 import de.waschnick.happy.stars.api.Star;
 import de.waschnick.happy.stars.api.Stars;
+import de.waschnick.happy.stars.entity.StarRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,9 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class StarController {
 
+    @Autowired
+    private StarRepository starRepository;
+
     @RequestMapping(value = "/stars", method = RequestMethod.GET)
     public Stars getStars() {
-        return new Stars();
+        return null; // TODO new Stars(starRepository.findAll());
     }
 
     @RequestMapping(value = "/star/{id}", method = RequestMethod.GET)
@@ -26,7 +31,7 @@ public class StarController {
         return new Star();
     }
 
-    @RequestMapping(value = "/stars", method = RequestMethod.GET)
+    @RequestMapping(value = "/stars", method = RequestMethod.POST)
     public Star addStar() {
         return new Star();
     }
