@@ -20,6 +20,10 @@ public class StarEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    // hibernate_sequence wasnt created
+    // HINT Needed by Postgresql: @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="judgements_id_seq")
+//    @SequenceGenerator(name="judgements_id_seq", sequenceName="judgements_id_seq", allocationSize=1)
     private long id;
 
     @NotNull

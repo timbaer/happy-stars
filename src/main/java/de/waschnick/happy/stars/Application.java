@@ -54,9 +54,27 @@ public class Application {
 
     @Bean
     public DataSource dataSource() {
+        // FIXME Remove System.out
+        System.out.println("Config:");
+        System.out.println("################");
+        System.out.println("db.driver: " + DB_DRIVER);
+        System.out.println("db.password: " + DB_PASSWORD);
+        System.out.println("db.url: " + DB_URL);
+        System.out.println("db.username: " + DB_USERNAME);
+        System.out.println("hibernate.dialect: " + HIBERNATE_DIALECT);
+        System.out.println("hibernate.show_sql: " + HIBERNATE_SHOW_SQL);
+        System.out.println("hibernate.hbm2ddl.auto: " + HIBERNATE_HBM2DDL_AUTO);
+        System.out.println("entitymanager.packagesToScan: " + ENTITYMANAGER_PACKAGES_TO_SCAN);
+
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(DB_DRIVER);
         dataSource.setUrl(DB_URL);
+        dataSource.setConnectionProperties(new Properties());
+
+        if (DB_DRIVER.contains("postgresql")) {
+            dataSource.getConnectionProperties().setProperty("ssl", "true");
+            dataSource.getConnectionProperties().setProperty("sslfactory", "org.postgresql.ssl.NonValidatingFactory");
+        }
         dataSource.setUsername(DB_USERNAME);
         dataSource.setPassword(DB_PASSWORD);
         return dataSource;
