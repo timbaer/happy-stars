@@ -19,9 +19,9 @@
 </head>
 <body ng-app="happy">
 <div ng-controller="happyController" class="panel"
-     ng-class="{true: 'alert-danger', false: 'alert-info'}[alive === 'true']">
+     ng-class="{true: 'alert-info', false: 'alert-danger'}[alive === true]">
 
-    <div class="global-info">Is alive: {{ alive }}</div>
+    <div class="global-info">Is alive: {{ alive === true }}</div>
 
     <h6>Stars:</h6>
 
