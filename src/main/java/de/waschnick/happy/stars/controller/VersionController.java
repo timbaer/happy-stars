@@ -1,4 +1,4 @@
-package de.waschnick.happy.stars;
+package de.waschnick.happy.stars.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/")
 public class VersionController {
 
     @Data

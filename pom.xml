@@ -15,7 +15,6 @@
     <artifactId>happy-stars</artifactId>
 
     <packaging>jar</packaging>
-
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
@@ -43,7 +42,24 @@
             <artifactId>postgresql</artifactId>
             <version>9.0-801.jdbc4</version>
         </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.3.2</version>
+        </dependency>
 
+
+        <!-- Swagger -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.2.2</version>
+        </dependency>
 
         <!-- Lombok for Getter/Setter Generation -->
         <dependency>

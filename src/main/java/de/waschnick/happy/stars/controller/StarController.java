@@ -1,4 +1,4 @@
-package de.waschnick.happy.stars;
+package de.waschnick.happy.stars.controller;
 
 import de.waschnick.happy.stars.api.Star;
 import de.waschnick.happy.stars.api.Stars;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/")
 public class StarController {
 
     @Autowired
