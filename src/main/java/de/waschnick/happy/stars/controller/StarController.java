@@ -37,6 +37,7 @@ public class StarController {
 
     @RequestMapping(value = "/stars/{id}", method = RequestMethod.PUT)
     public Star updateStar(@PathVariable long id) {
+        // FIXME todo
         return new Star();
     }
 

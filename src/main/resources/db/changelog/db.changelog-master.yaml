@@ -44,7 +44,34 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: maxSize
+                  name: max_size
                   type: bigint
                   constraints:
                     nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: universe
+            baseTableName: star
+            constraintName: fk_star_universe
+            onDelete: CASCADE
+            referencedTableName: universe
+            referencedColumnNames: id
+#        - createTable:
+#            tableName: universe_star
+#            columns:
+#              - column:
+#                  name: id_universe
+#                  type: bigint
+#                  constraints:
+#                    nullable: false
+#              - column:
+#                  name: id_star
+#                  type: bigint
+#                  constraints:
+#                    nullable: false
+#        - addForeignKeyConstraint:
+#            baseColumnNames: universe
+#            baseTableName: star
+#            constraintName: fk_star_universe
+#            onDelete: CASCADE
+#            referencedTableName: universe
+#            referencedColumnNames: id

@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.2.0.RELEASE</version>
+        <version>1.2.7.RELEASE</version>
     </parent>
 
     <groupId>de.axelspringer.ideas</groupId>
@@ -86,7 +86,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>de.waschnick.happy.stars.Application</mainClass>
+                    <mainClass>de.waschnick.happy.stars.HappyStarsApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
