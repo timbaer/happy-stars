@@ -2,6 +2,7 @@ package de.waschnick.happy.stars.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,6 +22,7 @@ import java.util.Set;
 
 @Data
 @EqualsAndHashCode(of = {"id"})
+@ToString(exclude = "stars")
 @Entity
 @Table(name = "universe")
 public class UniverseEntity {

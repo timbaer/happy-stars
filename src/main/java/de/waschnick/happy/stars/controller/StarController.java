@@ -4,6 +4,7 @@ import de.waschnick.happy.stars.api.Star;
 import de.waschnick.happy.stars.api.Stars;
 import de.waschnick.happy.stars.entity.StarEntity;
 import de.waschnick.happy.stars.entity.StarRepository;
+import de.waschnick.happy.stars.entity.UniverseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,9 @@ public class StarController {
 
     @Autowired
     private StarRepository starRepository;
+
+    @Autowired
+    private UniverseRepository universeRepository;
 
     @RequestMapping(value = "/stars", method = RequestMethod.GET)
     public Stars getStars() {
@@ -57,6 +61,7 @@ public class StarController {
         star.setId(starEntity.getId());
         star.setColor(starEntity.getColor());
         star.setName(starEntity.getName());
+        star.setUniverseId(starEntity.getUniverse().getId());
         return star;
     }
 
@@ -64,6 +69,7 @@ public class StarController {
         StarEntity entity = new StarEntity();
         entity.setColor(star.getColor());
         entity.setName(star.getName());
+        entity.setUniverse(universeRepository.findOne(star.getUniverseId()));
         return entity;
     }
 
