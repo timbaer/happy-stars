@@ -40,10 +40,10 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("Happy Stars API")
                 .description("Create your own universe and fill it with stars! " +
-                        "You can create a new universe and fill it with stars. " +
+                        "You can create a new universe and add stars. " +
                         "This is an example for a simple REST-CRUD-API for Tests, Demonstrations and Workshops.")
                 .termsOfServiceUrl("https://www.axelspringerideas.de")
-                .contact("Axel Springer ideas engineering GmbH")
+                //.contact("Axel Springer ideas engineering GmbH")
 //                .license("Apache License Version 2.0")
 //                .licenseUrl("https://github.com/springfox/springfox/blob/master/LICENSE")
 //                .version("2.0")
