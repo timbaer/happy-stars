@@ -1,6 +1,5 @@
 package de.waschnick.happy.stars;
 
-import de.waschnick.happy.stars.control.TestDataCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

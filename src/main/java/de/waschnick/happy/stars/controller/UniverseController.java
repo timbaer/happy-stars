@@ -1,10 +1,14 @@
 package de.waschnick.happy.stars.controller;
 
+import de.waschnick.happy.stars.api.Stars;
 import de.waschnick.happy.stars.api.Universe;
 import de.waschnick.happy.stars.api.Universes;
-import de.waschnick.happy.stars.control.TestDataCreator;
-import de.waschnick.happy.stars.entity.UniverseEntity;
-import de.waschnick.happy.stars.entity.UniverseRepository;
+import de.waschnick.happy.stars.business.star.boundary.StarFactory;
+import de.waschnick.happy.stars.business.star.boundary.StarSearch;
+import de.waschnick.happy.stars.business.universe.boundary.UniverseEdit;
+import de.waschnick.happy.stars.business.universe.boundary.UniverseFactory;
+import de.waschnick.happy.stars.business.universe.boundary.UniverseSearch;
+import de.waschnick.happy.stars.business.universe.entity.UniverseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,58 +23,55 @@ import java.util.List;
 public class UniverseController {
 
     @Autowired
-    private UniverseRepository universeRepository;
+    private UniverseSearch universeSearch;
 
     @Autowired
-    private TestDataCreator testDataCreator;
+    private UniverseEdit universeEdit;
+
+    @Autowired
+    private UniverseFactory universeFactory;
+
+    @Autowired
+    private StarSearch starSearch;
+
+    @Autowired
+    private StarFactory starFactory;
+
 
     @RequestMapping(value = "/universe", method = RequestMethod.GET)
     public Universes getUniverses() {
-        //testDataCreator.createAndSaveTestDataIfDatabaseEmpty();
 
-        List<UniverseEntity> entities = universeRepository.findAll();
-        Universes result = new Universes();
-        for (UniverseEntity entity : entities) {
-            result.add(mappe(entity));
-        }
-        return result;
+        List<UniverseEntity> entities = universeSearch.findAll();
+        return universeFactory.mappe(entities);
     }
 
     @RequestMapping(value = "/universe/{id}", method = RequestMethod.GET)
     public Universe getUniverse(@PathVariable long id) {
-        return mappe(universeRepository.findOne(id));
+        return universeFactory.mappe(universeSearch.findUniverse(id));
     }
 
-    @RequestMapping(value = "/universe/{id}", method = RequestMethod.PUT)
-    public Universe updateStar(@PathVariable long id) {
-        // FIXME todo
-        return new Universe();
+
+    @RequestMapping(value = "/universe/{id}/stars", method = RequestMethod.GET)
+    public Stars getStarsForUniverse(@PathVariable long id) {
+        return starFactory.mappe(starSearch.findAllFromUniverse(id));
+    }
+
+    @RequestMapping(value = "/universe", method = RequestMethod.PUT)
+    public Universe updateUniverse(@RequestBody Universe universe) {
+        return universeFactory.mappe(universeEdit.edit(universe));
     }
 
     @RequestMapping(value = "/universe", method = RequestMethod.POST)
-    public Universe addStar(@RequestBody Universe star) {
-        UniverseEntity entity = mappe(star);
-        return mappe(universeRepository.save(entity));
+    public Universe addUniverse(@RequestBody Universe universe) {
+        UniverseEntity entity = universeFactory.mappe(universe);
+        return universeFactory.mappe(universeEdit.save(entity));
     }
 
     @RequestMapping(value = "/universe/{id}", method = RequestMethod.DELETE)
     public void deleteUniverse(@PathVariable long id) {
-        universeRepository.delete(id);
+        universeEdit.delete(id);
     }
 
-    private Universe mappe(UniverseEntity entity) {
-        Universe universe = new Universe();
-        universe.setId(entity.getId());
-        universe.setName(entity.getName());
-        universe.setMaxSize(entity.getMaxSize());
-        return universe;
-    }
 
-    private UniverseEntity mappe(Universe star) {
-        UniverseEntity entity = new UniverseEntity();
-        entity.setName(star.getName());
-        entity.setMaxSize(star.getMaxSize());
-        return entity;
-    }
 
 }

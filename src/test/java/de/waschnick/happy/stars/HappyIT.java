@@ -2,10 +2,10 @@ package de.waschnick.happy.stars;
 
 import de.waschnick.happy.stars.controller.StarController;
 import de.waschnick.happy.stars.controller.UniverseController;
-import de.waschnick.happy.stars.entity.StarEntity;
-import de.waschnick.happy.stars.entity.StarRepository;
-import de.waschnick.happy.stars.entity.UniverseEntity;
-import de.waschnick.happy.stars.entity.UniverseRepository;
+import de.waschnick.happy.stars.business.star.entity.StarEntity;
+import de.waschnick.happy.stars.business.star.entity.StarRepository;
+import de.waschnick.happy.stars.business.universe.entity.UniverseEntity;
+import de.waschnick.happy.stars.business.universe.entity.UniverseRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -71,7 +71,7 @@ public class HappyIT {
     }
 
     @Test
-    public void testRestController() throws Exception {
+    public void startUp_shouldInitTestData_shouldBeFound() throws Exception {
         final MvcResult result = mockMvc.perform(get("/api/stars"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -81,7 +81,7 @@ public class HappyIT {
         String happyIndexVotes = "{'stars':[{'id':1,'name':'start_1','color':'BLUE','universeId':1}]}";
         assertThat(content, is(Matchers.equalTo(excapeJson(happyIndexVotes))));
     }
-    
+
     private String excapeJson(String pureValue) {
         return pureValue.replaceAll("'","\"");
     }

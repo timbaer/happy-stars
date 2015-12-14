@@ -22,9 +22,9 @@ public class SwaggerConfig {
     @Bean
     public Docket petApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                // .groupName("pcp-mobile-connect-api")
+                // .groupName("pcp-ideas-star-api")
                 .apiInfo(apiInfo())
-                        // Here we disable auto generating of responses for REST-endpoints
+                // Here we disable auto generating of responses for REST-endpoints
                 .useDefaultResponseMessages(true)
                 .select()
                 .paths(apiPaths())
@@ -39,12 +39,14 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Happy Stars API")
-                .description("Create your own universe and fill it with stars!")
-                .termsOfServiceUrl("http://www.axelspringerideas.de")
+                .description("Create your own universe and fill it with stars! " +
+                        "You can create a new universe and fill it with stars. " +
+                        "This is an example for a simple REST-CRUD-API for Tests, Demonstrations and Workshops.")
+                .termsOfServiceUrl("https://www.axelspringerideas.de")
                 .contact("Axel Springer ideas engineering GmbH")
-                .license("Apache License Version 2.0")
-                .licenseUrl("https://github.com/springfox/springfox/blob/master/LICENSE")
-                .version("2.0")
+//                .license("Apache License Version 2.0")
+//                .licenseUrl("https://github.com/springfox/springfox/blob/master/LICENSE")
+//                .version("2.0")
                 .build();
     }
 }
