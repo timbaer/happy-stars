@@ -49,7 +49,7 @@ public class StarImages {
     @SneakyThrows
     private List<String> readImageFiles() {
         if (files == null) {
-            InputStream resourceAsStream = StarImages.class.getClassLoader().getResourceAsStream("img/");
+            InputStream resourceAsStream = StarImages.class.getClassLoader().getResourceAsStream("public/img/");
             files = IOUtils.readLines(resourceAsStream, Charsets.UTF_8);
         }
         return files;

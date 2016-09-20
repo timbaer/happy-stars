@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
+import java.net.URL;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/")
@@ -53,8 +57,10 @@ public class InfoController {
     }
 
     @RequestMapping(value = "image/star/{name}", method = RequestMethod.GET)
-    public String imageUrl(@NotBlank @PathVariable String name) {
-        return starImages.getImageUrlForName(name);
+    public String imageUrl(HttpServletRequest request, @NotBlank @PathVariable String name) throws Exception {
+        URL url = new URI(request.getRequestURL().toString()).toURL();
+        String imagePath = starImages.getImageUrlForName(name);
+        return url.getProtocol() + "://" + url.getHost() + ":" + url.getPort() + "/" + imagePath;
     }
 
 
