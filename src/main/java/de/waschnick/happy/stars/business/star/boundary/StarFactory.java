@@ -40,7 +40,7 @@ public class StarFactory {
         StarEntity entity = new StarEntity();
         entity.setColor(star.getColor());
         entity.setName(star.getName());
-        entity.setUniverse(universeSearch.findUniverse(star.getId()));
+        entity.setUniverse(universeSearch.findUniverse(star.getUniverseId()));
         return entity;
     }
 

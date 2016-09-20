@@ -1,5 +1,6 @@
 package de.waschnick.happy.stars.controller;
 
+import de.waschnick.happy.stars.api.StarColor;
 import de.waschnick.happy.stars.business.star.control.StarImages;
 import de.waschnick.happy.stars.business.star.entity.StarRepository;
 import de.waschnick.happy.stars.business.universe.entity.UniverseRepository;
@@ -46,6 +47,10 @@ public class InfoController {
         return universeRepository.count();
     }
 
+    @RequestMapping(value = "colors/values", method = RequestMethod.GET)
+    public StarColor[] possibleColorsOfTheStars() {
+        return StarColor.values();
+    }
 
     @RequestMapping(value = "image/star/{name}", method = RequestMethod.GET)
     public String imageUrl(@NotBlank @PathVariable String name) {

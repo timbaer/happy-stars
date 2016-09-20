@@ -40,19 +40,6 @@ public class HappyStarsApplication {
     @Value("${db.username}")
     private String DB_USERNAME;
 
-    @Value("${hibernate.dialect}")
-    private String HIBERNATE_DIALECT;
-
-    @Value("${hibernate.show_sql}")
-    private String HIBERNATE_SHOW_SQL;
-
-    @Value("${hibernate.hbm2ddl.auto}")
-    private String HIBERNATE_HBM2DDL_AUTO;
-
-    @Value("${entitymanager.packagesToScan}")
-    private String ENTITYMANAGER_PACKAGES_TO_SCAN;
-
-    // HINT This is needed for Heroku and some special configs you need for postgresql
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -66,6 +53,7 @@ public class HappyStarsApplication {
         }
         dataSource.setUsername(DB_USERNAME);
         dataSource.setPassword(DB_PASSWORD);
+
         return dataSource;
     }
 

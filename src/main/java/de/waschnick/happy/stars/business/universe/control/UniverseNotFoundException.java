@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class UniverseNotFoundException extends RuntimeException {
 
 	public UniverseNotFoundException(long id) {
-		super("Could not find star '" + id + "'.");
+		super("Could not find universe '" + id + "'.");
 	}
 }

@@ -19,7 +19,7 @@ public class UniverseSearch {
     }
 
     public UniverseEntity findUniverse(Long id) {
-        UniverseEntity one = universeRepository.findOne(id);
+        UniverseEntity one = universeRepository.getOne(id);
         if (one == null) {
             throw new UniverseNotFoundException(id);
         }

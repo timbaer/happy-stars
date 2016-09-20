@@ -12,9 +12,6 @@ public class UniverseEdit {
     @Autowired
     private UniverseRepository universeRepository;
 
-    @Autowired
-    private UniverseFactory universeFactory;
-
     public UniverseEntity save(UniverseEntity entity) {
         return universeRepository.save(entity);
     }
@@ -23,8 +20,10 @@ public class UniverseEdit {
         universeRepository.delete(id);
     }
 
-    public UniverseEntity edit(Universe star) {
-        // FIXME
-        return universeFactory.mappe(star);
+    public UniverseEntity edit(Universe universe) {
+        UniverseEntity currentUniverse = universeRepository.getOne(universe.getId());
+        currentUniverse.setMaxSize(universe.getMaxSize());
+        currentUniverse.setName(universe.getName());
+        return universeRepository.save(currentUniverse);
     }
 }

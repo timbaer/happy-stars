@@ -29,7 +29,7 @@ public class StarSearch {
     }
 
     public StarEntity findStar(long id) {
-        StarEntity one = starRepository.findOne(id);
+        StarEntity one = starRepository.getOne(id);
         if (one == null) {
             throw new StarNotFoundException(id);
         }

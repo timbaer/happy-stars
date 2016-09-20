@@ -15,7 +15,6 @@ public class StartUp {
     @Autowired
     private TestDataCreator testDataCreator;
 
-    //@Scheduled(fixedDelay = FIVE_SECONS_IN_MS)
     @PostConstruct
     public void init() {
         log.info("Calling INIT-Method");
