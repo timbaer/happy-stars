@@ -1,6 +1,7 @@
 package de.waschnick.happy.stars.business.star.control;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 import java.util.List;
 
+@Slf4j
 @Service
 public class StarImages {
 
@@ -49,8 +51,10 @@ public class StarImages {
     @SneakyThrows
     private List<String> readImageFiles() {
         if (files == null) {
+            log.info("Loading Image-Files...");
             InputStream resourceAsStream = StarImages.class.getClassLoader().getResourceAsStream("public/img/");
             files = IOUtils.readLines(resourceAsStream, Charsets.UTF_8);
+            log.info("Found number of images: " + files.size());
         }
         return files;
     }

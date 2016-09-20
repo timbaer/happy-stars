@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,11 +42,13 @@ public class InfoController {
     }
 
 
+    @Cacheable("stars")
     @RequestMapping(value = "count/star", method = RequestMethod.GET)
     public Long coutnStars() {
         return starRepository.count();
     }
 
+    @Cacheable("universes")
     @RequestMapping(value = "count/universe", method = RequestMethod.GET)
     public Long coutnUniverse() {
         return universeRepository.count();

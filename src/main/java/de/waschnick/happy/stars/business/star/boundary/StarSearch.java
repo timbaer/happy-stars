@@ -5,6 +5,7 @@ import de.waschnick.happy.stars.business.star.entity.StarEntity;
 import de.waschnick.happy.stars.business.star.entity.StarRepository;
 import de.waschnick.happy.stars.business.universe.boundary.UniverseSearch;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,14 +21,17 @@ public class StarSearch {
     private UniverseSearch universeRepository;
 
 
+    @Cacheable("stars")
     public List<StarEntity> findAll() {
         return starRepository.findAll();
     }
-    
+
+    @Cacheable("stars")
     public List<StarEntity> findAllFromUniverse(Long universeId) {
         return new ArrayList<>(universeRepository.findUniverse(universeId).getStars());
     }
 
+    @Cacheable("stars")
     public StarEntity findStar(long id) {
         StarEntity one = starRepository.getOne(id);
         if (one == null) {
