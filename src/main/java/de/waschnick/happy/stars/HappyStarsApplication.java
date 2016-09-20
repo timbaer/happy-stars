@@ -10,6 +10,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -21,10 +22,6 @@ import java.util.Properties;
 public class HappyStarsApplication {
 
     public static void main(String[] args) {
-        // FIXME Remove System.out
-        System.out.println("###########################");
-        System.out.println("Hello World!");
-        System.out.println("###########################");
         SpringApplication.run(HappyStarsApplication.class, args);
     }
 
@@ -39,6 +36,14 @@ public class HappyStarsApplication {
 
     @Value("${db.username}")
     private String DB_USERNAME;
+
+    @PostConstruct
+    public void postConstruct() {
+        System.out.println("###########################");
+        System.out.println("Hello World!");
+        System.out.println("Make party with: " + DB_URL);
+        System.out.println("###########################");
+    }
 
     @Bean
     public DataSource dataSource() {
