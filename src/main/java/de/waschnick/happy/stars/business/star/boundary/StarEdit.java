@@ -24,7 +24,7 @@ public class StarEdit {
 
     @CacheEvict(value = "stars", allEntries = true)
     public void delete(long id) {
-        starRepository.delete(id);
+        starRepository.deleteById(id);
     }
 
     @CacheEvict(value = "stars", allEntries = true)

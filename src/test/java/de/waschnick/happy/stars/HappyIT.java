@@ -1,19 +1,18 @@
 package de.waschnick.happy.stars;
 
-import de.waschnick.happy.stars.controller.StarController;
-import de.waschnick.happy.stars.controller.UniverseController;
 import de.waschnick.happy.stars.business.star.entity.StarEntity;
 import de.waschnick.happy.stars.business.star.entity.StarRepository;
 import de.waschnick.happy.stars.business.universe.entity.UniverseEntity;
 import de.waschnick.happy.stars.business.universe.entity.UniverseRepository;
+import de.waschnick.happy.stars.controller.StarController;
+import de.waschnick.happy.stars.controller.UniverseController;
 import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,9 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
-@WebIntegrationTest
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = HappyStarsApplication.class)
+@SpringBootTest
 public class HappyIT {
 
     @Autowired

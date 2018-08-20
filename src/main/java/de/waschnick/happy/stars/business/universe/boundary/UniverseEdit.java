@@ -20,7 +20,7 @@ public class UniverseEdit {
 
     @CacheEvict(value = {"universes", "stars"}, allEntries = true)
     public void delete(long id) {
-        universeRepository.delete(id);
+        universeRepository.deleteById(id);
     }
 
     @CacheEvict(value = {"universes", "stars"}, allEntries = true)
