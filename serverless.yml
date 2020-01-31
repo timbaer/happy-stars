@@ -1,0 +1,42 @@
+service: happy-stars
+
+custom:
+  github-repo:
+    Owner: timbaer
+    Repo: happy-stars
+    Branch: master
+    OAuthToken: ${ssm:/aws/reference/secretsmanager/sls-github-token~true}
+
+plugins:
+  - serverless-s3-deploy
+  - serverless-stack-output
+  - serverless-cloudfront-invalidate
+
+provider:
+  name: aws
+  runtime: java11
+  stage: ${opt:stage, 'dev'}
+  region: eu-west-1
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:*"
+      Resource: ["arn:aws:s3:::*" ]
+
+  environment:
+      variable1: value1
+
+package:
+  artifact: backend/target/app-1-SNAPSHOT.jar
+
+functions:
+  hello:
+    handler: de.asideas.UniversesHandler
+    events:
+       - http:
+           path: universes
+           method: get
+
+resources:
+  - ${file(./sls-and-infra/CICD.yml)}

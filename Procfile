@@ -1,1 +1,0 @@
-web: java -Dspring.profiles.active=heroku -Dserver.port=$PORT -jar target/happy-stars-1.0-SNAPSHOT.jar
