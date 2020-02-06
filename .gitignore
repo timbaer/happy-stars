@@ -1,5 +1,11 @@
 *.iml
-.idea
-target
+.idea/
+target/
 
-node_modules
+node_modules/
+
+.serverless/
+
+.java-version
+sam.jvm.yaml
+sam.native.yaml

@@ -3,25 +3,15 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 10
       java: openjdk11
   pre_build:
     commands:
-      - npm install
-      - PATH=$(npm bin):$PATH
-      - cd frontend
-      - npm install
-      - PATH=$(npm bin):$PATH
-      - cd ..
   build:
     commands:
       # maven build - backend
       - cd $CODEBUILD_SRC_DIR/backend
-      -  mvn clean install --no-transfer-progress
-      # webpack build - frontend
-      - cd $CODEBUILD_SRC_DIR/frontend
-      - npm run test
-      - npm run build
+      - mvn clean install --no-transfer-progress
+      - mvn install --no-transfer-progress -Dquarkus.lambda.handler=stars
 
       - cd $CODEBUILD_SRC_DIR
       # prepare a deployment ready app for the prod stage
@@ -35,4 +25,3 @@ artifacts:
         - package.json
         - backend/target/**/*
         - package/**/*
-        - frontend/dist/**/*

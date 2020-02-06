@@ -8,13 +8,10 @@ custom:
     OAuthToken: ${ssm:/aws/reference/secretsmanager/sls-github-token~true}
 
 plugins:
-  - serverless-s3-deploy
   - serverless-stack-output
-  - serverless-cloudfront-invalidate
 
 provider:
   name: aws
-  runtime: java11
   stage: ${opt:stage, 'dev'}
   region: eu-west-1
 
@@ -28,15 +25,60 @@ provider:
       variable1: value1
 
 package:
-  artifact: backend/target/app-1-SNAPSHOT.jar
+  individually: true
 
 functions:
-  hello:
-    handler: de.asideas.UniversesHandler
+  universes:
+    runtime: java11
+    package:
+      artifact: backend/target/happystars-universes-runner.jar
+    handler: io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest
     events:
-       - http:
-           path: universes
-           method: get
-
+      - http:
+          path: universes
+          method: get
+      - http:
+          path: universes/{id}
+          method: get
+          request:
+            parameters:
+              paths:
+                id: false
+      - http:
+          path: universes/{id}
+          method: delete
+          request:
+            parameters:
+              paths:
+                id: true
+      - http:
+          path: universes
+          method: post
+  stars:
+    runtime: java11
+    package:
+      artifact: backend/target/happystars-stars-runner.jar
+    handler: io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest
+    events:
+      - http:
+          path: stars
+          method: get
+      - http:
+          path: stars/{id}
+          method: get
+          request:
+            parameters:
+              paths:
+                id: false
+      - http:
+          path: stars/{id}
+          method: delete
+          request:
+            parameters:
+              paths:
+                id: true
+      - http:
+          path: stars
+          method: post
 resources:
   - ${file(./sls-and-infra/CICD.yml)}
