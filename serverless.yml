@@ -82,3 +82,16 @@ functions:
           method: post
 resources:
   - ${file(./sls-and-infra/CICD.yml)}
+  - Resources:
+      universesTable:
+        Type: AWS::DynamoDB::Table
+        Properties:
+          TableName: happStarsUniverses-${opt:stage}
+          AttributeDefinitions:
+            - AttributeName: id
+              AttributeType: S
+          KeySchema:
+            - AttributeName: id
+              KeyType: HASH
+          BillingMode: PAY_PER_REQUEST
+
