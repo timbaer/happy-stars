@@ -91,7 +91,7 @@ resources:
       universeTable:
         Type: AWS::DynamoDB::Table
         Properties:
-          TableName: universes
+          TableName: universes-${opt:stage}
           AttributeDefinitions:
             - AttributeName: id
               AttributeType: N
@@ -104,13 +104,11 @@ resources:
               KeyType: HASH
             - AttributeName: name
               KeyType: RANGE
-          ProvisionedThroughput:
-            ReadCapacityUnits: 1
-            WriteCapacityUnits: 1
+          BillingMode: PAY_PER_REQUEST
       starsTable:
         Type: AWS::DynamoDB::Table
         Properties:
-          TableName: stars
+          TableName: stars-${opt:stage}
           AttributeDefinitions:
             - AttributeName: id
               AttributeType: N
@@ -125,6 +123,4 @@ resources:
               KeyType: HASH
             - AttributeName: name
               KeyType: RANGE
-          ProvisionedThroughput:
-            ReadCapacityUnits: 1
-            WriteCapacityUnits: 1
+          BillingMode: PAY_PER_REQUEST
