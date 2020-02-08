@@ -12,9 +12,9 @@ phases:
   build:
     commands:
       # maven build - backend
-      - cd $CODEBUILD_SRC_DIR/backend
-      - mvn clean install --no-transfer-progress
-      - mvn install --no-transfer-progress -Dquarkus.lambda.handler=stars
+      - cd $CODEBUILD_SRC_DIR
+      - ./mvnw -f backend clean install
+      - ./mvnw -f backend install -Dquarkus.lambda.handler=stars
 
       - cd $CODEBUILD_SRC_DIR
       # prepare a deployment ready app for the prod stage
