@@ -88,7 +88,7 @@ functions:
 resources:
   - ${file(./sls-and-infra/CICD.yml)}
   - Resources:
-      universeTable:
+      universesTable:
         Type: AWS::DynamoDB::Table
         Properties:
           TableName: universes-${opt:stage}
@@ -97,8 +97,6 @@ resources:
               AttributeType: N
             - AttributeName: name
               AttributeType: S
-            - AttributeName: maxSize
-              AttributeType: N
           KeySchema:
             - AttributeName: id
               KeyType: HASH
@@ -113,10 +111,6 @@ resources:
             - AttributeName: id
               AttributeType: N
             - AttributeName: name
-              AttributeType: S
-            - AttributeName: universeId
-              AttributeType: N
-            - AttributeName: color
               AttributeType: S
           KeySchema:
             - AttributeName: id
