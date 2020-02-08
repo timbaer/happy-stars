@@ -15,8 +15,7 @@ import javax.inject.Singleton
 @Singleton
 class DynamoDbClientAdapterMock : DynamoDbClientAdapter() {
 
-    private val dynamoDB = KGenericContainer("amazon/dynamodb-local:1.12.0")
-            .withExposedPorts(8000)
+    private val dynamoDB = KGenericContainer.createDynamoDB()
 
     private lateinit var _client: DynamoDbAsyncClient
 
