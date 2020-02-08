@@ -11,6 +11,11 @@ phases:
       - PATH=$(npm bin):$PATH
   build:
     commands:
+      # Bug workaround: (https://github.com/aws/aws-codebuild-docker-images/issues/237)
+      # MAVEN_CONFIG is set to /root/.m2 is CodeBuild Dockerfile which breaks the mvn usage
+      # see https://github.com/apache/maven/blob/master/apache-maven/src/bin/mvn#L188
+      - export MAVEN_CONFIG=''
+
       # maven build - backend
       - cd $CODEBUILD_SRC_DIR
       - ./mvnw -f backend clean install
