@@ -34,9 +34,11 @@ package:
 
 functions:
   universes:
+    environment:
+      QUARKUS_LAMBDA_HANDLER : universes
     runtime: java11
     package:
-      artifact: backend/target/happystars-universes-runner.jar
+      artifact: backend/target/happystars-runner.jar
     handler: io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest
     events:
       - http:
@@ -60,9 +62,11 @@ functions:
           path: universes
           method: post
   stars:
+    environment:
+      QUARKUS_LAMBDA_HANDLER: stars
     runtime: java11
     package:
-      artifact: backend/target/happystars-stars-runner.jar
+      artifact: backend/target/happystars-runner.jar
     handler: io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest
     events:
       - http:

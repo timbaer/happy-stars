@@ -9,12 +9,7 @@ To run all tests from with project root, execute
 ```
 
 ## Build  
-To build the *universes* handler, run (from project root)
+To build the Jar handler, run (from project root)
 ```
 ./mvnw -f backend clean install
-``` 
-
-To build the *stars* handler, run (from project root)
-```
-./mvnw -f backend clean install -Dquarkus.lambda.handler=stars
 ``` 

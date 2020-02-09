@@ -18,7 +18,7 @@
 
         <quarkus-plugin.version>1.2.0.Final</quarkus-plugin.version>
 
-        <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
+        <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
         <quarkus.platform.version>1.2.0.Final</quarkus.platform.version>
 
@@ -137,7 +137,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>${project.name}-${quarkus.lambda.handler}</finalName>
+        <finalName>${project.name}</finalName>
 
         <sourceDirectory>src/main/kotlin</sourceDirectory>
         <testSourceDirectory>src/test/kotlin</testSourceDirectory>
@@ -222,18 +222,6 @@
         </plugins>
     </build>
     <profiles>
-        <profile>
-            <id>stars</id>
-            <activation>
-                <property>
-                    <name>quarkus.lambda.handler</name>
-                    <value>stars</value>
-                </property>
-            </activation>
-            <properties>
-                <quarkus.lambda.handler>stars</quarkus.lambda.handler>
-            </properties>
-        </profile>
         <profile>
             <id>native</id>
             <activation>
