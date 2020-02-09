@@ -21,6 +21,15 @@ class UniverseRepository @Inject constructor(val dynamoDbClientAdapter: DynamoDb
         Arn.fromString(dynamoDbTableArn).resource().resource()
     }
 
+    fun getAll(): CompletableFuture<Set<Universe>> {
+        val query = dynamoDbClientAdapter.client()
+                .scan(ScanRequest.builder().tableName(dynamoDbTableName).build())
+
+        return query.thenApply {
+            it.items().map { mapToUniverse(it) }.toSet()
+        }
+    }
+
     fun getUniverse(id: Int): CompletableFuture<Universe?> {
         val query = dynamoDbClientAdapter.client()
                 .query(QueryRequest.builder()

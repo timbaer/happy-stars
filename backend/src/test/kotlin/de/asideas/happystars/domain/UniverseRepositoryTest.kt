@@ -29,6 +29,21 @@ class UniverseRepositoryTest {
     }
 
     @Test
+    fun getAll_ShouldReturnExistingUniverses() {
+        givenNoUniversesExists()
+
+        val unis = universeRepository.getAll().get()!!
+        assertThat(unis.size).isEqualTo(0)
+
+        (1..10).forEach {  givenUniverseExists(Universe(it, "test item ${(Math.random()*10000)
+                .toInt()}")) }
+
+        val unisa = universeRepository.getAll().get()!!
+        assertThat(unisa.size).isEqualTo(10)
+
+    }
+
+    @Test
     fun get_ShouldReturnNull_ForUnknownUniverse() {
         givenNoUniversesExists()
 

@@ -13,13 +13,10 @@ import org.slf4j.LoggerFactory
 import javax.inject.Inject
 import javax.inject.Named
 
-
 @Named("universes")
 class UniversesHandler : RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     private val log: Logger = LoggerFactory.getLogger(UniversesHandler::class.java)
-
-    private val universes = listOf(Universe("Milkyway", 1), Universe("Andromeda", 2, 20))
 
     @Inject
     lateinit var universeRepository: UniverseRepository
@@ -54,23 +51,26 @@ class UniversesHandler : RequestHandler<APIGatewayProxyRequestEvent, APIGatewayP
 
     private fun deleteUniverse(id: String): APIGatewayProxyResponseEvent {
         val universesId = id.toInt()
-        return when (val universe = universes.find { it.id == universesId }) {
+        val allUni = universeRepository.getAll().get()
+        return when (val universe = allUni.find { it.id == universesId}) {
             null -> APIGatewayProxyResponseEvent().withStatusCode(404)
             else -> {
                 log.info("About to delete universe {}", universe)
-                APIGatewayProxyResponseEvent().withBody(mapper.writeValueAsString(universes - universe)).withStatusCode(200)
+                universeRepository.delete(id.toInt())
+                APIGatewayProxyResponseEvent().withBody(mapper.writeValueAsString(allUni - universe)).withStatusCode(200)
             }
         }
     }
 
     private fun createUniverse(creationCmd: CreateUniverseCmd): APIGatewayProxyResponseEvent {
-        val newId = universes.maxBy { it.id }!!.id + 1
+        val allUni = universeRepository.getAll().get()
+        val newId = allUni.maxBy { it.id }!!.id + 1
 
         val newUniverse = Universe(creationCmd.name, newId, creationCmd.maxSize)
 
         log.info("About to create new universe {}", newUniverse)
 
-        return APIGatewayProxyResponseEvent().withBody(mapper.writeValueAsString(universes + newUniverse)).withStatusCode(201)
+        return APIGatewayProxyResponseEvent().withBody(mapper.writeValueAsString(allUni + newUniverse)).withStatusCode(201)
     }
 
     private fun getUniverse(id: String?): APIGatewayProxyResponseEvent {
@@ -80,7 +80,8 @@ class UniversesHandler : RequestHandler<APIGatewayProxyRequestEvent, APIGatewayP
                     null -> APIGatewayProxyResponseEvent().withStatusCode(404)
                     else -> APIGatewayProxyResponseEvent().withBody(mapper.writeValueAsString(universe)).withStatusCode(200)
                 }
-                else -> APIGatewayProxyResponseEvent().withBody(mapper.writeValueAsString(universes)).withStatusCode(200)
+                else -> APIGatewayProxyResponseEvent().withBody(mapper.writeValueAsString
+                (universeRepository.getAll().get())).withStatusCode(200)
             }
         } catch (e: Exception) {
             log.error("Error processing", e)
