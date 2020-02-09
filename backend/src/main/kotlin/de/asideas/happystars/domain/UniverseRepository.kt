@@ -1,7 +1,9 @@
 package de.asideas.happystars.domain
 
+import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import software.amazon.awssdk.arns.Arn
 import software.amazon.awssdk.services.dynamodb.model.*
 import java.util.concurrent.CompletableFuture
 import javax.inject.Inject
@@ -13,9 +15,16 @@ class UniverseRepository @Inject constructor(val dynamoDbClientAdapter: DynamoDb
 
     private var log: Logger = LoggerFactory.getLogger(UniverseRepository::class.java)
 
+    @ConfigProperty(name = "universes.dynamodb.arn")
+    lateinit var dynamoDbTableArn : String
+    val dynamoDbTableName by lazy {
+        Arn.fromString(dynamoDbTableArn).resource().resource()
+    }
+
     fun getUniverse(id: Int): CompletableFuture<Universe?> {
-        val query = dynamoDbClientAdapter.client.query(QueryRequest.builder()
-                .tableName(Universe.TABLE_NAME)
+        val query = dynamoDbClientAdapter.client()
+                .query(QueryRequest.builder()
+                .tableName(dynamoDbTableName)
                 .keyConditionExpression("id = :universeId")
                 .expressionAttributeValues(mapOf(
                         ":universeId" to AttributeValue.builder().n(id.toString()).build()
@@ -37,8 +46,8 @@ class UniverseRepository @Inject constructor(val dynamoDbClientAdapter: DynamoDb
                 "maxSize" to AttributeValue.builder().n(universe.maxSize.toString()).build()
         )
 
-        val putItem = dynamoDbClientAdapter.client.putItem(PutItemRequest.builder()
-                .tableName(Universe.TABLE_NAME)
+        val putItem = dynamoDbClientAdapter.client().putItem(PutItemRequest.builder()
+                .tableName(dynamoDbTableName)
                 .item(attributes)
                 .build())
 
@@ -61,8 +70,8 @@ class UniverseRepository @Inject constructor(val dynamoDbClientAdapter: DynamoDb
     }
 
     fun delete(universe: Universe): CompletableFuture<Universe?> {
-        val deleteItem = dynamoDbClientAdapter.client.deleteItem(DeleteItemRequest.builder()
-                .tableName(Universe.TABLE_NAME)
+        val deleteItem = dynamoDbClientAdapter.client().deleteItem(DeleteItemRequest.builder()
+                .tableName(dynamoDbTableName)
                 .key(mapOf(
                         "id" to AttributeValue.builder().n(universe.id.toString()).build(),
                         "name" to AttributeValue.builder().s(universe.name).build()

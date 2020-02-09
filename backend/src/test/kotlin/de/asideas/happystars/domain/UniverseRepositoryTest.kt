@@ -102,8 +102,9 @@ class UniverseRepositoryTest {
     }
 
     private fun givenUniverseExists(universe: Universe) {
-        dynamoDbClientAdapter.client.putItem(
-                PutItemRequest.builder().tableName(Universe.TABLE_NAME)
+        dynamoDbClientAdapter.client().putItem(
+                PutItemRequest.builder().tableName( (dynamoDbClientAdapter as
+                        DynamoDbClientAdapterMock).universesDynamoDbTableName)
                         .item(
                                 mapOf(
                                         "id" to AttributeValue.builder().n(universe.id.toString()).build(),
@@ -116,8 +117,10 @@ class UniverseRepositoryTest {
     }
 
     private fun givenNoUniversesExists() {
-        dynamoDbClientAdapter.client.deleteTable(DeleteTableRequest.builder().tableName(Universe.TABLE_NAME).build()).join()
-        (dynamoDbClientAdapter as DynamoDbClientAdapterMock).createUniverseTable(dynamoDbClientAdapter.client)
+        dynamoDbClientAdapter.client().deleteTable(DeleteTableRequest.builder().tableName(
+                (dynamoDbClientAdapter as
+                DynamoDbClientAdapterMock).universesDynamoDbTableName).build()).join()
+        (dynamoDbClientAdapter as DynamoDbClientAdapterMock).createUniverseTable()
     }
 
 }

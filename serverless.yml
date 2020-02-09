@@ -26,7 +26,8 @@ provider:
       Resource: "*"
 
   environment:
-      variable1: value1
+    STARS_DYNAMODB_ARN: { "Fn::GetAtt": ["starsTable", "Arn"] }
+    UNIVERSES_DYNAMODB_ARN: { "Fn::GetAtt": ["universesTable", "Arn"] }
 
 package:
   individually: true

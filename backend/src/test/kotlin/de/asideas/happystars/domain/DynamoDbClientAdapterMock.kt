@@ -1,6 +1,8 @@
 package de.asideas.happystars.domain
 
 import io.quarkus.test.Mock
+import org.eclipse.microprofile.config.ConfigProvider
+import software.amazon.awssdk.arns.Arn
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
 import software.amazon.awssdk.regions.Region
@@ -13,17 +15,22 @@ import javax.inject.Singleton
 
 @Mock
 @Singleton
-class DynamoDbClientAdapterMock : DynamoDbClientAdapter() {
+class DynamoDbClientAdapterMock: DynamoDbClientAdapter {
 
     private val dynamoDB = KGenericContainer.createDynamoDB()
 
-    private lateinit var _client: DynamoDbAsyncClient
+    lateinit var _client : DynamoDbAsyncClient
 
-    override val client by lazy {
+    val universesDynamoDbTableName by lazy {
+        Arn.fromString(ConfigProvider.getConfig()
+                .getValue("universes.dynamodb.arn", String::class.java)).resource().resource()
+    }
+
+    init {
         if (!dynamoDB.isRunning) {
             dynamoDB.start()
             this._client = getAsyncClient()
-            ensureTables(this._client)
+            ensureTables()
         }
         this._client
     }
@@ -40,19 +47,19 @@ class DynamoDbClientAdapterMock : DynamoDbClientAdapter() {
         return builder.build()
     }
 
-    private fun ensureTables(client: DynamoDbAsyncClient) {
-        val tables = client.listTables().join()
-        if (!tables.tableNames().contains(Universe.TABLE_NAME)) {
-            createUniverseTable(client)
+    private fun ensureTables() {
+        val tables = _client.listTables().join()
+        if (!tables.tableNames().contains(universesDynamoDbTableName)) {
+            createUniverseTable()
         }
         if (!tables.tableNames().contains(Star.TABLE_NAME)) {
-            createStarTable(client)
+            createStarTable()
         }
     }
 
-    fun createUniverseTable(client: DynamoDbAsyncClient) {
-        client.createTable(CreateTableRequest.builder()
-                .tableName(Universe.TABLE_NAME)
+    fun createUniverseTable() {
+        _client.createTable(CreateTableRequest.builder()
+                .tableName(universesDynamoDbTableName)
                 .attributeDefinitions(
                         AttributeDefinition.builder().attributeName("id").attributeType(ScalarAttributeType.N).build(),
                         AttributeDefinition.builder().attributeName("name").attributeType(ScalarAttributeType.S).build()
@@ -68,13 +75,17 @@ class DynamoDbClientAdapterMock : DynamoDbClientAdapter() {
         ).join()
     }
 
-    private fun createStarTable(client: DynamoDbAsyncClient) {
+    private fun createStarTable() {
         // TODO("Needs implementation")
     }
 
     @PreDestroy
     fun shutdownDb() {
         dynamoDB.stop()
+    }
+
+    override fun client(): DynamoDbAsyncClient {
+        return _client
     }
 
 }

@@ -7,8 +7,10 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import de.asideas.happystars.domain.UniverseRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import javax.inject.Inject
 import javax.inject.Named
 
 
@@ -19,7 +21,9 @@ class UniversesHandler : RequestHandler<APIGatewayProxyRequestEvent, APIGatewayP
 
     private val universes = listOf(Universe("Milkyway", 1), Universe("Andromeda", 2, 20))
 
-    //    @Inject
+    @Inject
+    lateinit var universeRepository: UniverseRepository
+
     var mapper: ObjectMapper = ObjectMapper()
 
     init {
@@ -72,7 +76,7 @@ class UniversesHandler : RequestHandler<APIGatewayProxyRequestEvent, APIGatewayP
     private fun getUniverse(id: String?): APIGatewayProxyResponseEvent {
         return try {
             return when (val universesId = id?.toIntOrNull()) {
-                is Int -> when (val universe = universes.find { it.id == universesId }) {
+                is Int -> when (val universe = universeRepository.getUniverse(universesId).get()) {
                     null -> APIGatewayProxyResponseEvent().withStatusCode(404)
                     else -> APIGatewayProxyResponseEvent().withBody(mapper.writeValueAsString(universe)).withStatusCode(200)
                 }
