@@ -21,7 +21,7 @@ class UniversesHandler : RequestHandler<APIGatewayProxyRequestEvent, APIGatewayP
     @Inject
     lateinit var universeRepository: UniverseRepository
 
-    var mapper: ObjectMapper = ObjectMapper()
+    private var mapper: ObjectMapper = ObjectMapper()
 
     init {
         mapper.registerModule(KotlinModule())
