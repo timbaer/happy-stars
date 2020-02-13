@@ -16,10 +16,12 @@ provider:
   region: eu-west-1
 
   iamRoleStatements:
+    # TODO: Delete? (must be a left-over from the frontend)
     - Effect: "Allow"
       Action:
         - "s3:*"
       Resource: ["arn:aws:s3:::*" ]
+    # TODO: use a more least-privilige permission
     - Effect: "Allow"
       Action:
         - "dynamodb:*"
@@ -30,23 +32,23 @@ provider:
     UNIVERSES_DYNAMODB_ARN: { "Fn::GetAtt": ["universesTable", "Arn"] }
 
 package:
-  individually: true
+  artifact: backend/target/happystars-runner.jar
 
 functions:
   universes:
     environment:
       QUARKUS_LAMBDA_HANDLER : universes
     runtime: java11
-    package:
-      artifact: backend/target/happystars-runner.jar
     handler: io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest
     events:
       - http:
           path: universes
           method: get
+          cors: true
       - http:
           path: universes/{id}
           method: get
+          cors: true
           request:
             parameters:
               paths:
@@ -54,6 +56,7 @@ functions:
       - http:
           path: universes/{id}
           method: delete
+          cors: true
           request:
             parameters:
               paths:
@@ -61,12 +64,11 @@ functions:
       - http:
           path: universes
           method: post
+          cors: true
   stars:
     environment:
       QUARKUS_LAMBDA_HANDLER: stars
     runtime: java11
-    package:
-      artifact: backend/target/happystars-runner.jar
     handler: io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest
     events:
       - http:

@@ -19,13 +19,16 @@ phases:
       # maven build - backend
       - cd $CODEBUILD_SRC_DIR
       - ./mvnw -f backend clean install
-      - ./mvnw -f backend install -Dquarkus.lambda.handler=stars
 
       - cd $CODEBUILD_SRC_DIR
       # prepare a deployment ready app for the prod stage
       - serverless package --stage prod --package package
       # pack and deploy a staging stage
       - serverless deploy --stage staging
+
+      # fetch the staging env's apigateway URL for E2E test
+      -  E2E_APIGATEWAY_URL=$(sls info --stage staging | awk '$1 == "GET" {print $3}' | head -1 | sed 's/universes//g')
+      - ./mvnw -f backend -Dtest=**E2ETest test
 artifacts:
       files:
         - sls-and-infra/**/*

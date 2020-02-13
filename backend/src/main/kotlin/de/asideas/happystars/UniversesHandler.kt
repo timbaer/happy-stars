@@ -7,6 +7,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import de.asideas.happystars.domain.Universe
 import de.asideas.happystars.domain.UniverseRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -28,6 +29,10 @@ class UniversesHandler : RequestHandler<APIGatewayProxyRequestEvent, APIGatewayP
     }
 
     override fun handleRequest(request: APIGatewayProxyRequestEvent, context: Context): APIGatewayProxyResponseEvent {
+
+        log.info("yere")
+        log.info(request.body)
+
         return try {
             return when (request.httpMethod) {
                 "POST" -> {
@@ -64,9 +69,13 @@ class UniversesHandler : RequestHandler<APIGatewayProxyRequestEvent, APIGatewayP
 
     private fun createUniverse(creationCmd: CreateUniverseCmd): APIGatewayProxyResponseEvent {
         val allUni = universeRepository.getAll().get()
-        val newId = allUni.maxBy { it.id }!!.id + 1
+        val newId = when {
+            allUni.size > 0 -> allUni.maxBy { it.id }!!.id + 1
+            else -> 1
+        }
 
-        val newUniverse = Universe(creationCmd.name, newId, creationCmd.maxSize)
+        val newUniverse = Universe( newId,creationCmd.name, creationCmd.maxSize)
+        universeRepository.save(newUniverse,false)
 
         log.info("About to create new universe {}", newUniverse)
 

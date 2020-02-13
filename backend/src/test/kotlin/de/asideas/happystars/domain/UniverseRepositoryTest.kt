@@ -57,7 +57,7 @@ class UniverseRepositoryTest {
         givenNoUniversesExists()
         assertNull(universeRepository.getUniverse(1).join())
 
-        val response = universeRepository.save(Universe(1, "test", 1000)).join()
+        universeRepository.save(Universe(1, "test", 1000)).join()
 
         val expectedExisting = universeRepository.getUniverse(1).join()
         assertNotNull(expectedExisting)
