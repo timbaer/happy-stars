@@ -1,6 +1,7 @@
 package de.asideas.happystars.end2end
 
 import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import de.asideas.happystars.CreateUniverseCmd
 import de.asideas.happystars.domain.Universe
@@ -30,12 +31,12 @@ class UniverseHandlerE2ETest {
         System.getenv("E2E_APIGATEWAY_URL")!!
     }
 
-    val mapper = ObjectMapper()
+    val mapper = ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
     @Test
     fun `ensure Flow- creation(POST) AND list(GET) AND find(GET) AND remove(DELETE) works as expected`() {
 
-        val createUniverseCmd = CreateUniverseCmd("test" + (Math.random() * 100).toInt(), (Math.random() * 100).toInt())
+        val createUniverseCmd = CreateUniverseCmd("test" + (Math.random() * 10000).toInt(), (Math.random() * 100).toInt())
 
         // tests POST
         val createdUniverse = createUniverse(createUniverseCmd)
@@ -57,7 +58,9 @@ class UniverseHandlerE2ETest {
         val response = HttpClient().get<HttpResponse>("$baseEndpoint/universes/$id")
         assertThat(response.status).isEqualTo(HttpStatusCode.OK)
 
-        mapper.readValue(response.readText(), Universe::class.java)
+        val readText = response.readText()
+        println("response for universe ID $id is: $readText")
+        mapper.readValue(readText, Universe::class.java)
     }
 
     private fun deleteUniverse(id: Int): List<Universe> = runBlocking {
@@ -84,7 +87,8 @@ class UniverseHandlerE2ETest {
 
         assertThat(response.status).isEqualTo(HttpStatusCode.Created)
 
-        val universesFromPostResponse: List<Universe> = mapper.readValue(response.readText(), object : TypeReference<List<Universe>>() {})
+        val readText = response.readText()
+        val universesFromPostResponse: List<Universe> = mapper.readValue(readText, object : TypeReference<List<Universe>>() {})
         universesFromPostResponse.find { it.name == createUniverseCmd.name && it.maxSize == createUniverseCmd.maxSize }
     }
 

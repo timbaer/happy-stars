@@ -22,7 +22,7 @@ class UniverseRepositoryTest {
     fun get_ShouldReturnExistingUniverse() {
         givenNoUniversesExists()
         assertNull(universeRepository.getUniverse(1).join())
-        givenUniverseExists(Universe(1, "test"))
+        givenUniverseExists(Universe(1, "test",10))
         val response = universeRepository.getUniverse(1).join()
 
         assertNotNull(response)
@@ -36,7 +36,7 @@ class UniverseRepositoryTest {
         assertThat(unis.size).isEqualTo(0)
 
         (1..10).forEach {  givenUniverseExists(Universe(it, "test item ${(Math.random()*10000)
-                .toInt()}")) }
+                .toInt()}",10)) }
 
         val unisa = universeRepository.getAll().get()!!
         assertThat(unisa.size).isEqualTo(10)
@@ -71,7 +71,7 @@ class UniverseRepositoryTest {
         givenNoUniversesExists()
         assertNull(universeRepository.getUniverse(1).join())
 
-        val response = universeRepository.save(Universe(1, "test"), true).join()
+        val response = universeRepository.save(Universe(1, "test",10), true).join()
         assertNotNull(response)
         assertEquals(1, response!!.id)
         assertEquals("test", response.name)
@@ -79,7 +79,7 @@ class UniverseRepositoryTest {
 
     @Test
     fun delete_ById_ShouldDeletePersistedUniverse() {
-        givenUniverseExists(Universe(1, "test"))
+        givenUniverseExists(Universe(1, "test",10))
 
         val response = universeRepository.delete(1).join()
         assertNotNull(response)
@@ -99,7 +99,7 @@ class UniverseRepositoryTest {
 
     @Test
     fun delete_ShouldDeletePersistedUniverse() {
-        val universe = Universe(1, "test")
+        val universe = Universe(1, "test",10)
         givenUniverseExists(universe)
 
         val response = universeRepository.delete(universe).join()
@@ -113,7 +113,7 @@ class UniverseRepositoryTest {
     @Test
     fun delete_Should_Return_Null_ToSignal_Nothing_Changed_For_Unknown_Universe() {
         givenNoUniversesExists()
-        assertNull(universeRepository.delete(Universe(1, "totallyNotExisting")).join())
+        assertNull(universeRepository.delete(Universe(1, "totallyNotExisting",10)).join())
     }
 
     private fun givenUniverseExists(universe: Universe) {

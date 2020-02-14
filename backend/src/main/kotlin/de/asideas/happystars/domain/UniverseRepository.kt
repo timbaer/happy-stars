@@ -100,7 +100,7 @@ class UniverseRepository @Inject constructor(val dynamoDbClientAdapter: DynamoDb
         return Universe(
                 item.get("id")!!.n().toInt(),
                 item.get("name")!!.s(),
-                item.get("maxSize")?.n()?.toInt()
+                item.get("maxSize")!!.n().toInt()
         )
     }
 }

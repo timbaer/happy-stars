@@ -27,7 +27,8 @@ phases:
       - serverless deploy --stage staging
 
       # fetch the staging env's apigateway URL for E2E test
-      -  E2E_APIGATEWAY_URL=$(sls info --stage staging | awk '$1 == "GET" {print $3}' | head -1 | sed 's/universes//g')
+      - E2E_APIGATEWAY_URL=$(sls info --stage staging | awk '$1 == "GET" {print $3}' | head -1 | sed 's/\/universes//g')
+      - echo End2End will be executed against: $E2E_APIGATEWAY_URL
       - ./mvnw -f backend -Dtest=**E2ETest test
 artifacts:
       files:
